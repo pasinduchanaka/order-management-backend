@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Product extends Model
+class Order extends Model
 {
     /**
      *
      * Created by: Pasindu Chanaka
      * Created date: 2024.10.22
-     * Summary: Get the order items associated with the product
+     * Summary: Get the order items associated with the order
      *
      * @return HasMany
      */
