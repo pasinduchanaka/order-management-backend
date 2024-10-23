@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Repository\OrderRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
 class OrderService
@@ -18,6 +19,28 @@ class OrderService
     public function __construct(OrderRepository $orderRepository)
     {
         $this->orderRepository = $orderRepository;
+    }
+
+    /**
+     *
+     * Created by: Pasindu Chanaka
+     * Created date: 2024.10.23
+     * Summary: Get all orders
+     *
+     * @param $request
+     * @return LengthAwarePaginator|Order|null
+     * @throws Exception
+     */
+    public function index($request): LengthAwarePaginator|Order|null
+    {
+        try {
+            return $this->orderRepository->index($request);
+
+        } catch (Exception $exception) {
+            Log::error('An error occurred while fetching orders-(service): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
+
+            throw $exception;
+        }
     }
 
     /**

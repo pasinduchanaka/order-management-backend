@@ -10,6 +10,7 @@ use App\Services\OrderService;
 use App\Services\ProductService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -29,6 +30,40 @@ class OrderController extends Controller
         $this->orderService = $orderService;
         $this->productService = $productService;
         $this->orderItemsService = $orderItemsService;
+    }
+
+    /**
+     *
+     * Created by: Pasindu Chanaka
+     * Created date: 2024.10.23
+     * Summary: Get all orders
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        try {
+            $search = $request->only(['name', 'status']);
+            $orders = $this->orderService->index($search);
+
+            $response = [
+                'status' => 'success',
+                'result' => ['orders' => $orders]
+            ];
+
+            return response()->json($response, 200, ['Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json']);
+
+        } catch (Exception $exception) {
+            Log::error('An error occurred while fetching orders-(controller): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
+
+            $response = [
+                'status' => 'failed',
+                'message' => $exception->getMessage()
+            ];
+
+            return response()->json($response, 500, ['Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json']);
+        }
     }
 
     /**
