@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Repository\OrderRepository;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class OrderService
@@ -36,6 +37,29 @@ class OrderService
 
         } catch (Exception $exception) {
             Log::error('An error occurred while creating a order-(service): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
+
+            throw $exception;
+        }
+    }
+
+    /**
+     *
+     * Created by: Pasindu Chanaka
+     * Created date: 2024.10.23
+     * Summary: Update order status
+     *
+     * @param Request $request
+     * @param $orderId
+     * @return Order
+     * @throws Exception
+     */
+    public function updateOrderStatus(Request $request, $orderId): Order
+    {
+        try {
+            return $this->orderRepository->updateOrderStatus($request, $orderId);
+
+        } catch (Exception $exception) {
+            Log::error('An error occurred while updating a order status-(service): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
 
             throw $exception;
         }

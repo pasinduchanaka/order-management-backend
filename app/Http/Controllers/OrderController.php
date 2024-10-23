@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderStatusRequest;
 use App\Models\Product;
 use App\Services\OrderItemsService;
 use App\Services\OrderService;
@@ -98,6 +99,44 @@ class OrderController extends Controller
             DB::rollBack();
 
             Log::error('An error occurred while creating a order-(controller): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
+
+            $response = [
+                'status' => 'failed',
+                'message' => $exception->getMessage()
+            ];
+
+            return response()->json($response, 500, ['Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json']);
+        }
+    }
+
+    /**
+     *
+     * Created by: Pasindu Chanaka
+     * Created date: 2024.10.23
+     * Summary: Update order status
+     *
+     * @param UpdateOrderStatusRequest $request
+     * @param $orderId
+     * @return JsonResponse
+     */
+    public function updateOrderStatus(UpdateOrderStatusRequest $request, $orderId): JsonResponse
+    {
+        try {
+            Log::info('Update order status request received for order ID: ' . $orderId, [
+                'request_data' => $request->all()
+            ]);
+
+            $order = $this->orderService->updateOrderStatus($request, $orderId);
+
+            $response = [
+                'status' => 'success',
+                'result' => ['order' => $order]
+            ];
+
+            return response()->json($response, 200, ['Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json']);
+
+        } catch (Exception $exception) {
+            Log::error('An error occurred while updating a order status-(controller): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
 
             $response = [
                 'status' => 'failed',

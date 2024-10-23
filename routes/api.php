@@ -28,5 +28,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::post('/', [OrderController::class, 'store']);
+        Route::put('/update-status/{id}', [OrderController::class, 'updateOrderStatus']);
     });
 });
