@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +24,9 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}', [ProductController::class, 'update']);
         Route::get('/', [ProductController::class, 'index']);
         Route::delete('/{id}', [ProductController::class, 'delete']);
+    });
+
+    Route::prefix('orders')->group(function () {
+        Route::post('/', [OrderController::class, 'store']);
     });
 });

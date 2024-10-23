@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Models\Product;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -149,6 +150,52 @@ class ProductRepository
 
         } catch (Exception $exception) {
             Log::error('An error occurred while deleting a product-(repository): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
+
+            throw $exception;
+        }
+    }
+
+    /**
+     *
+     * Created by: Pasindu Chanaka
+     * Created date: 2024.10.23
+     * Summary: Get product details by product ids
+     *
+     * @param array $productIds
+     * @return Collection
+     * @throws Exception
+     */
+    public function getProductDetails(array $productIds): Collection
+    {
+        try {
+            return $this->product::whereIn('id', $productIds)->get();
+
+        } catch (Exception $exception) {
+            Log::error('An error occurred while retrieving a product-(repository): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
+
+            throw $exception;
+        }
+    }
+
+    /**
+     *
+     * Created by: Pasindu Chanaka
+     * Created date: 2024.10.23
+     * Summary: Update product quantity
+     *
+     * @param int $quantity
+     * @param $productId
+     * @return int
+     * @throws Exception
+     */
+    public function updateProductQuantity(int $quantity, $productId): int
+    {
+        try {
+            return $this->product::where('id', '=', $productId)
+                ->decrement('stock_quantity', $quantity);
+
+        } catch (Exception $exception) {
+            Log::error('An error occurred while updating product quantity-(repository): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
 
             throw $exception;
         }

@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
+    public const PENDING = "pending";
+    public const COMPLETED = "completed";
+    public const CANCELLED = "cancelled";
+
     /**
      *
      * Created by: Pasindu Chanaka
