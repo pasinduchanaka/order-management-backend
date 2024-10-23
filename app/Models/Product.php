@@ -4,9 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    public const ACTIVE = 1;
+    public const DEACTIVE = 0;
+
+    use SoftDeletes;
+
     /**
      *
      * Created by: Pasindu Chanaka
