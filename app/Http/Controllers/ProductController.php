@@ -35,7 +35,9 @@ class ProductController extends Controller
     {
         try {
             $search = $request->only(['name', 'status']);
-            $products = $this->productService->index($search);
+            $paginate = $request->paginate ?? "true";
+
+            $products = $this->productService->index($search, $paginate);
 
             $response = [
                 'status' => 'success',
