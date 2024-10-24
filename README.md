@@ -29,6 +29,9 @@ DB_PORT=3306
 DB_DATABASE=order_management_system
 DB_USERNAME=sail
 DB_PASSWORD=password
+
+WWWUSER = 1000
+WWWGROUP = 1000
 ```
 ### 3. Installing Composer Dependencies for Application
 
@@ -40,7 +43,11 @@ docker run --rm \
     laravelsail/php83-composer:latest \
     composer install --ignore-platform-reqs
 ```
-### 4. Run Key Generator, Migrations and Seed
+### 4. Run Docker Containers
+
+``` docker compose up```
+
+### 5. Run Key Generator, Migrations and Seed
 First run ```docker ps``` to see if the containers are running:
 
 This will display the running containers along with their IDs.
