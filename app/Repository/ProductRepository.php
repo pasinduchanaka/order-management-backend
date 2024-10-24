@@ -28,13 +28,14 @@ class ProductRepository
      * Summary: Get all products
      *
      * @param $search
-     * @return LengthAwarePaginator|Product|null
+     * @param string $paginate
+     * @return LengthAwarePaginator|Product|Collection|null
      * @throws Exception
      */
-    public function index($search = null): LengthAwarePaginator|Product|null
+    public function index($search = null, string $paginate = "true"): LengthAwarePaginator|Product|Collection|null
     {
         try {
-            if ($search) {
+            if ($search && $paginate) {
                 $query = $this->product::query();
                 foreach ($search as $filterKey => $filterValue) {
                     switch ($filterKey) {
@@ -52,12 +53,16 @@ class ProductRepository
                 }
 
                 $products = $query
-                    ->orderBy('name', 'ASC')
-                    ->paginate(10);
+                    ->orderBy('id', 'DESC')
+                    ->paginate(5);
+
+            } else if ($paginate == "false") {
+                $products = $this->product::orderBy('id', 'DeSC')
+                    ->get();
 
             } else {
-                $products = $this->product::orderBy('name', 'ASC')
-                    ->paginate(10);
+                $products = $this->product::orderBy('id', 'DeSC')
+                    ->paginate(5);
             }
 
             return $products;
