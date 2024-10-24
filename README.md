@@ -61,6 +61,8 @@ Once inside the container, run the following commands: ```php artisan key:genera
 
 Then, seed the database using: ```php artisan db:seed --class=DatabaseSeeder```
 
+Then, generate a new JWT secret key using: ```php artisan jwt:secret```. 
+
 Now the backend is ready to be used. URL to access the backend is: http://localhost:8010
 
 
@@ -120,6 +122,8 @@ Create your database in MySQL (or any other DB you're using) based on the name s
 Then, run the migrations to create the necessary tables: ```php artisan migrate```
 
 Then run the seeders to create the necessary data: ```php artisan db:seed --class=DatabaseSeeder```
+
+Then, generate a new JWT secret key using: ```php artisan jwt:secret```.
 
 
 ### 6. Run the Laravel Development Server
