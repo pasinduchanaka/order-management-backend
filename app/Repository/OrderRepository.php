@@ -55,12 +55,12 @@ class OrderRepository
                 $orders = $query
                     ->orderBy('orders.id', 'DESC')
                     ->with(['orderItems.product', 'createdBy:id,name'])
-                    ->paginate(10);
+                    ->paginate(5);
 
             } else {
                 $orders = $this->order::orderBy('orders.id', 'DESC')
                     ->with(['orderItems.product', 'createdBy:id,name'])
-                    ->paginate(10);
+                    ->paginate(5);
             }
 
             return $orders;
@@ -86,7 +86,7 @@ class OrderRepository
     {
         try {
             $order = new $this->order();
-            $order->user_id = $products['user_id'];
+            $order->user_id = auth()->user()->id;
             $order->total_price = $products['total_price'];
             $order->status = $this->order::PENDING;
             $order->save();

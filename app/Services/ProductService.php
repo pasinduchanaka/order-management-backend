@@ -29,13 +29,14 @@ class ProductService
      * Summary: Get all products
      *
      * @param $request
-     * @return LengthAwarePaginator|Product|null
+     * @param string $paginate
+     * @return LengthAwarePaginator|Product|Collection|null
      * @throws Exception
      */
-    public function index($request): LengthAwarePaginator|Product|null
+    public function index($request, string $paginate = "true"): LengthAwarePaginator|Product|Collection|null
     {
         try {
-            return $this->productRepository->index($request);
+            return $this->productRepository->index($request, $paginate);
 
         } catch (Exception $exception) {
             Log::error('An error occurred while fetching product-(service): ' . $exception->getMessage() . ' (Line: ' . $exception->getLine() . ')');
